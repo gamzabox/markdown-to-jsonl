@@ -1,6 +1,7 @@
 # Guidance
 - 목표: makdown 문서 를 RAG 에 임베딩에 최적화된 JSONL 로 변환하는 command line 프로그램 개발
 - 개발언어: go 1.25.1 (go 1.25.1 의 최신 문법 확인은 Context7 MCP 를 활용 할것)
+- Markdown parser 는 goldmark 를 사용 할 것
 - 프로그램 요구사항 정의는 REQUIREMENTS.md 파일에서 확인
 - 작업 계획은 TASKS.md 파일에서 확인
 - 작업 계획의 추가나 수정이 필요하다면 TASKS.md 파일을 수정
