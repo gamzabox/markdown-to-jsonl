@@ -7,7 +7,7 @@ import (
 
 func TestParseMarkdownFile(t *testing.T) {
 	// Create a temporary markdown file for testing
-	content := "# Heading 1\nSome text under heading 1.\n\n## Heading 2\n- List item 1\n- List item 2\n\n```\ncode block line 1\ncode block line 2\n```\n\nPlain text after code block.\n"
+	content := "# Heading 1\nSome text under heading 1.\n\n## Heading 2\n- List item 1\n  - Nested list item 1\n- List item 2\n\n```\ncode block line 1\ncode block line 2\n```\n\nPlain text after code block.\n"
 	tmpFile, err := os.CreateTemp("", "test.md")
 	if err != nil {
 		t.Fatal(err)
@@ -33,6 +33,23 @@ func TestParseMarkdownFile(t *testing.T) {
 	// Check first element is heading 1
 	if elements[0].Type != "heading" || elements[0].Content != "Heading 1" || elements[0].Depth != 1 {
 		t.Errorf("First element incorrect: %+v", elements[0])
+	}
+
+	// Check list item depth and path
+	foundList := false
+	for _, el := range elements {
+		if el.Type == "list" {
+			foundList = true
+			if el.Depth == 0 {
+				t.Error("List item depth should be greater than 0")
+			}
+			if len(el.Path) == 0 {
+				t.Error("List item path should not be empty")
+			}
+		}
+	}
+	if !foundList {
+		t.Error("Expected to find list item elements")
 	}
 
 	// Check code block content

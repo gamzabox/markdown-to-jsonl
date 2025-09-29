@@ -78,13 +78,17 @@ func parseMarkdownFile(filePath string) ([]*MarkdownElement, error) {
 		if strings.HasPrefix(trimmed, "- ") || strings.HasPrefix(trimmed, "* ") {
 			// Count leading spaces for depth
 			leadingSpaces := len(line) - len(strings.TrimLeft(line, " "))
+
 			depth := leadingSpaces/2 + 1
 			content := strings.TrimSpace(trimmed[2:])
+			// Add depth info to list item path by appending list depth
+			listPath := append([]string{}, headingStack...)
+			listPath = append(listPath, strings.Repeat("list-item", depth))
 			elements = append(elements, &MarkdownElement{
 				Type:    "list",
 				Content: content,
 				Depth:   depth,
-				Path:    append([]string{}, headingStack...),
+				Path:    listPath,
 			})
 			continue
 		}
