@@ -33,7 +33,7 @@ func checkFileExists(path string) bool {
 
 func getOutputFileName(inputFile string) string {
 	base := strings.TrimSuffix(inputFile, filepath.Ext(inputFile))
-	ext := ".jsonl"
+	ext := ".json"
 	output := base + ext
 	count := 0
 	for {

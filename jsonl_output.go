@@ -5,7 +5,9 @@ import (
 	"os"
 )
 
-// writeJSONLOutput writes the markdown elements as JSONL to the specified output file.
+// writeJSONLOutput writes the markdown elements as a JSON array to the specified output file.
+// The resulting file is a single .json containing a JSON array where each element corresponds
+// to one MarkdownElement (previously emitted as JSONL).
 func writeJSONLOutput(outputFile string, elements []*MarkdownElement) error {
 	file, err := os.Create(outputFile)
 	if err != nil {
@@ -13,15 +15,16 @@ func writeJSONLOutput(outputFile string, elements []*MarkdownElement) error {
 	}
 	defer file.Close()
 
-	encoder := json.NewEncoder(file)
+	// Filter out empty text elements
+	var out []*MarkdownElement
 	for _, el := range elements {
-		// Skip empty text elements to ignore empty lines in markdown
 		if el.Type == "text" && el.Content == "" {
 			continue
 		}
-		if err := encoder.Encode(el); err != nil {
-			return err
-		}
+		out = append(out, el)
 	}
-	return nil
+
+	enc := json.NewEncoder(file)
+	enc.SetIndent("", "  ")
+	return enc.Encode(out)
 }

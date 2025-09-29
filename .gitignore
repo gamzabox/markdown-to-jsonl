@@ -33,4 +33,5 @@ go.work.sum
 
 # build output
 mtojl
-
+mtoj
+/*.json
