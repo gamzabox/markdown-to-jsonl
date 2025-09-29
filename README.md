@@ -9,7 +9,7 @@ mtojl은 마크다운(markdown) 문서를 RAG 임베딩에 최적화된 JSONL �
 3. 터미널에서 프로젝트 디렉토리로 이동합니다.
 4. 다음 명령어로 빌드합니다:
    ```
-   go build -o mtojl main.go
+   go build -o mtojl .
    ```
 5. 변환할 마크다운 파일이 있는 위치에서 다음과 같이 실행합니다:
    ```
