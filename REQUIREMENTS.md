@@ -12,7 +12,6 @@ Markdown to JSONL 1.0.0
 Usage: mtojl markdown-file
 ```
 6. markdown 에서 jsonl 로 변환시 다음을 고려해서 진행
-	1. 불릿/헤딩 계층(depth·path 보존)
+	1. 리 /헤딩 계층(depth·path 보존)
 	2. 코드 블록 최적화
 	3. 마크다운 내부 JSONL(워크플로 등) 이중 색인
-

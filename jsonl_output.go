@@ -15,6 +15,10 @@ func writeJSONLOutput(outputFile string, elements []*MarkdownElement) error {
 
 	encoder := json.NewEncoder(file)
 	for _, el := range elements {
+		// Skip empty text elements to ignore empty lines in markdown
+		if el.Type == "text" && el.Content == "" {
+			continue
+		}
 		if err := encoder.Encode(el); err != nil {
 			return err
 		}
