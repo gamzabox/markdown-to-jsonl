@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"os"
+	"regexp"
 	"strings"
 )
 
@@ -27,6 +28,9 @@ func parseMarkdownFile(filePath string) ([]*MarkdownElement, error) {
 	var elements []*MarkdownElement
 	var headingStack []string
 	var currentCodeBlock *MarkdownElement
+
+	// Regex to detect numbered list items like "1. ", "2. ", etc.
+	numberedListRegex := regexp.MustCompile(`^\d+\.\s+`)
 
 	for scanner.Scan() {
 		line := scanner.Text()
@@ -74,8 +78,8 @@ func parseMarkdownFile(filePath string) ([]*MarkdownElement, error) {
 			continue
 		}
 
-		// Detect list items (simple - or * with optional indentation)
-		if strings.HasPrefix(trimmed, "- ") || strings.HasPrefix(trimmed, "* ") {
+		// Detect list items (simple - or * with optional indentation) and numbered lists
+		if strings.HasPrefix(trimmed, "- ") || strings.HasPrefix(trimmed, "* ") || numberedListRegex.MatchString(trimmed) {
 			// Count leading spaces for depth, considering tabs as well
 			leadingSpaces := 0
 			for _, ch := range line {
@@ -89,7 +93,16 @@ func parseMarkdownFile(filePath string) ([]*MarkdownElement, error) {
 			}
 
 			depth := leadingSpaces/2 + 1
-			content := strings.TrimSpace(trimmed[2:])
+			content := trimmed
+			if strings.HasPrefix(trimmed, "- ") || strings.HasPrefix(trimmed, "* ") {
+				content = strings.TrimSpace(trimmed[2:])
+			} else if numberedListRegex.MatchString(trimmed) {
+				idx := strings.Index(trimmed, ".")
+				if idx != -1 && len(trimmed) > idx+1 {
+					content = strings.TrimSpace(trimmed[idx+1:])
+				}
+			}
+
 			// Add depth info to list item path by appending list depth
 			listPath := append([]string{}, headingStack...)
 			// Clear previous list-item entries if any
