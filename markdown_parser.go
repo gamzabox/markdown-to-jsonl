@@ -76,14 +76,30 @@ func parseMarkdownFile(filePath string) ([]*MarkdownElement, error) {
 
 		// Detect list items (simple - or * with optional indentation)
 		if strings.HasPrefix(trimmed, "- ") || strings.HasPrefix(trimmed, "* ") {
-			// Count leading spaces for depth
-			leadingSpaces := len(line) - len(strings.TrimLeft(line, " "))
+			// Count leading spaces for depth, considering tabs as well
+			leadingSpaces := 0
+			for _, ch := range line {
+				if ch == ' ' {
+					leadingSpaces++
+				} else if ch == '\t' {
+					leadingSpaces += 2 // assuming tab width of 2 spaces
+				} else {
+					break
+				}
+			}
 
 			depth := leadingSpaces/2 + 1
 			content := strings.TrimSpace(trimmed[2:])
 			// Add depth info to list item path by appending list depth
 			listPath := append([]string{}, headingStack...)
-			listPath = append(listPath, strings.Repeat("list-item", depth))
+			// Clear previous list-item entries if any
+			for len(listPath) > 0 && listPath[len(listPath)-1] == "list-item" {
+				listPath = listPath[:len(listPath)-1]
+			}
+			// Append "list-item" depth times
+			for i := 0; i < depth; i++ {
+				listPath = append(listPath, "list-item")
+			}
 			elements = append(elements, &MarkdownElement{
 				Type:    "list",
 				Content: content,

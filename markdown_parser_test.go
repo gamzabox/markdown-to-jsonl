@@ -37,19 +37,47 @@ func TestParseMarkdownFile(t *testing.T) {
 
 	// Check list item depth and path
 	foundList := false
+	var listItems []*MarkdownElement
 	for _, el := range elements {
 		if el.Type == "list" {
 			foundList = true
+			listItems = append(listItems, el)
 			if el.Depth == 0 {
 				t.Error("List item depth should be greater than 0")
 			}
 			if len(el.Path) == 0 {
 				t.Error("List item path should not be empty")
 			}
+			// Additional check: depth should match the count of "list-item" in path suffix
+			listItemCount := 0
+			for _, p := range el.Path {
+				if p == "list-item" {
+					listItemCount++
+				}
+			}
+			if listItemCount != el.Depth {
+				t.Errorf("List item depth %d does not match count of 'list-item' in path %d", el.Depth, listItemCount)
+			}
 		}
 	}
 	if !foundList {
 		t.Error("Expected to find list item elements")
+	}
+
+	// Additional test: check depth relationship between "List item 1" and "Nested list item 1"
+	var listItem1Depth, nestedListItem1Depth int
+	for _, el := range listItems {
+		if el.Content == "List item 1" {
+			listItem1Depth = el.Depth
+		}
+		if el.Content == "Nested list item 1" {
+			nestedListItem1Depth = el.Depth
+		}
+	}
+	if listItem1Depth == 0 || nestedListItem1Depth == 0 {
+		t.Error("Could not find depths for 'List item 1' or 'Nested list item 1'")
+	} else if nestedListItem1Depth != listItem1Depth+1 {
+		t.Errorf("'Nested list item 1' depth %d is not one greater than 'List item 1' depth %d", nestedListItem1Depth, listItem1Depth)
 	}
 
 	// Check code block content
