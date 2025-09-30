@@ -27,7 +27,7 @@ func TestOutputFileNameConflict(t *testing.T) {
 	}
 	defer os.Remove(tmpFile.Name())
 
-	outputFile := tmpFile.Name() + ".jsonl"
+	outputFile := tmpFile.Name() + ".json"
 	err = os.Rename(tmpFile.Name(), outputFile)
 	if err != nil {
 		t.Fatal(err)

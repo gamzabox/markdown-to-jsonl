@@ -12,6 +12,6 @@ Markdown to JSON 1.0.0
 Usage: mtoj markdown-file
 ```
 1. markdown 에서 JSON 로 변환시 다음을 고려해서 진행
-   1. markdown 의 각 라인을 JSONL 로 변환하고 JSONL ARRAY 로 구성된 JSON 으로 변환
+   1. markdown 의 각 라인을 JSONL 로 변환하고 JSONL 을 포함하는 JSON ARRAY 로 변환
    2. 리스트/헤딩 계층(depth·path 보존)
    3. 코드 블록을 하나의 JSONL 로 변환

@@ -13,8 +13,8 @@ func TestGetOutputFileName(t *testing.T) {
 	}
 	defer os.Remove(tmpFile.Name())
 
-	// Rename to .jsonl to simulate output file
-	outputFile := tmpFile.Name() + ".jsonl"
+	// Rename to .json to simulate output file
+	outputFile := tmpFile.Name() + ".json"
 	err = os.Rename(tmpFile.Name(), outputFile)
 	if err != nil {
 		t.Fatal(err)
@@ -31,7 +31,7 @@ func TestGetOutputFileName(t *testing.T) {
 	}
 
 	// Create the first conflict file
-	conflictFile1 := outputFile[:len(outputFile)-6] + "-1.jsonl"
+	conflictFile1 := outputFile[:len(outputFile)-6] + "-1.json"
 	f1, err := os.Create(conflictFile1)
 	if err != nil {
 		t.Fatal(err)

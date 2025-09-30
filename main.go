@@ -12,8 +12,8 @@ import (
 // Returns exit code: 0 if args are valid, 1 if usage message was printed.
 func parseArgs(args []string, usageWriter *strings.Builder) int {
 	if len(args) == 0 || (len(args) == 1 && args[0] == "-h") {
-		usageWriter.WriteString("Markdown to JSONL 1.0.0\n")
-		usageWriter.WriteString("Usage: mtojl markdown-file\n")
+		usageWriter.WriteString("Markdown to JSON 1.0.0\n")
+		usageWriter.WriteString("Usage: mtoj markdown-file\n")
 		return 1
 	}
 	return 0
@@ -77,7 +77,7 @@ func main() {
 	outputFile := getOutputFileName(inputFile)
 	err = writeJSONLOutput(outputFile, elements)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "Error writing JSONL output: %v\n", err)
+		fmt.Fprintf(os.Stderr, "Error writing JSON output: %v\n", err)
 		os.Exit(1)
 	}
 }
