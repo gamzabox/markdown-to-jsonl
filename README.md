@@ -1,7 +1,7 @@
 # Markdown to JSON Converter (mtoj)
 
 ## 개요
-mtojl은 마크다운(markdown) 문서를 RAG 임베딩에 최적화된 JSON 형식으로 변환하는 커맨드라인 프로그램입니다. Go 1.25.1로 개발되었으며, 마크다운의 헤딩, 리스트, 코드블록 등의 계층 구조를 보존하여 JSON로 변환합니다.
+mtoj은 마크다운(markdown) 문서를 RAG 임베딩에 최적화된 JSON 형식으로 변환하는 커맨드라인 프로그램입니다. Go 1.25.1로 개발되었으며, 마크다운의 헤딩, 리스트, 코드블록 등의 계층 구조를 보존하여 JSON로 변환합니다.
 
 ## 설치 및 실행
 1. Go 1.25.1 이상이 설치되어 있어야 합니다.
@@ -13,13 +13,13 @@ mtojl은 마크다운(markdown) 문서를 RAG 임베딩에 최적화된 JSON 형
    ```
 5. 다음 명령어로 빌드합니다:
    ```
-   go build -o mtojl .
+   go build -o mtoj .
    ```
 6. 변환할 마크다운 파일이 있는 위치에서 다음과 같이 실행합니다:
    ```
-   ./mtojl example.md
+   ./mtoj example.md
    ```
-   - Windows 환경에서는 `mtojl.exe`로 실행합니다.
+   - Windows 환경에서는 `mtoj.exe`로 실행합니다.
 
 
 ## 사용법
